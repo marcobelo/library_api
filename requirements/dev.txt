@@ -1,0 +1,9 @@
+-r base.txt
+
+# Formatter
+black==23.1.0
+isort==5.12.0
+
+# Testing
+pytest==7.3.1
+pyhamcrest==2.0.4
