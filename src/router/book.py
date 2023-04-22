@@ -1,7 +1,9 @@
-from fastapi import status
+from fastapi import Depends, status
 from fastapi_utils.cbv import cbv
 from fastapi_utils.inferring_router import InferringRouter
+from sqlalchemy.orm import Session
 
+from src.config.database import db
 from src.controller import BookController
 from src.schema import BookInput, BookOutput
 

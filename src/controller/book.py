@@ -1,8 +1,12 @@
-from src.schema import BookInput, BookOutput
+from src.config.database import db
+from src.schema import BookInput, BookModel, BookOutput
 
 
 class BookController:
     @classmethod
-    async def add_book(cls, book: BookInput) -> BookOutput:
+    async def add_book(cls, book: BookInput) -> BookModel:
         print(f"\nBook inserted: {book.dict()}\n")
-        return BookOutput(**book.dict())
+        book_model = BookModel(**book.dict())
+        db.session.add(book_model)
+        await db.session.flush()
+        return book_model

@@ -1,1 +1,1 @@
-from .book import BookInput, BookOutput
+from .book import BookInput, BookModel, BookOutput
