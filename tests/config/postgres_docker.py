@@ -20,10 +20,11 @@ class PostgresDocker:
         }
         self.dsn = {"host": "localhost", "user": "user", "password": "pass", "port": "5432", "database": "library_db"}
         self.container = None
+        self.base_dir = pathlib.Path(__file__).parents[2]
         self.__read_sql_files()
 
     def __read_sql_files(self):
-        with open("tests/config/reset_database.sql", "r", encoding="UTF-8") as sql_file:
+        with open(self.base_dir / "tests/config/reset_database.sql", "r", encoding="UTF-8") as sql_file:
             print("Reading Reset Database sql file")
             self.reset_database_sql = sql_file.read()
 
@@ -49,14 +50,14 @@ class PostgresDocker:
 
     def stop(self):
         if self.container:
+            print("Stopping container")
             self.container.stop()
 
-    @staticmethod
-    def run_migrations():
-        project_root = pathlib.Path(__file__).parents[2]
-        alembic_ini = project_root / "alembic.ini"
+    def run_migrations(self):
         print("Running migrations")
-        alembic.command.upgrade(alembic.config.Config(alembic_ini.__str__()), "head")
+        alembic_cfg = alembic.config.Config()
+        alembic_cfg.set_main_option("script_location", str(self.base_dir / "alembic"))
+        alembic.command.upgrade(alembic_cfg, "head")
 
     def reset(self):
         conn = psycopg2.connect(**self.dsn)
