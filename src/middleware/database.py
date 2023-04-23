@@ -1,6 +1,6 @@
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from src.config.database import make_async_session, session_holder
+from src.config.database import db, make_async_session
 
 
 class DatabaseMiddleware:
@@ -11,10 +11,11 @@ class DatabaseMiddleware:
         try:
             async_session = await make_async_session()
             async with async_session() as session:
-                session_token = session_holder.set(session)
+                db.set_session(session)
                 async with session.begin():
                     await self.app(scope, receive, send)
-                session_holder.reset(session_token)
+                db.set_session(None)
+            async_session.close_all()
         except Exception as ex:
             print(ex)
 
