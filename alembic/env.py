@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 
 from alembic import context
 from src.config.database import Base
+from src.config.environemnt import env
 from src.schema import *
 
 # this is the Alembic Config object, which provides
@@ -28,7 +29,7 @@ target_metadata = Base.metadata
 
 
 def get_database_url() -> str:
-    return "postgresql://user:pass@localhost:5432/library_db"
+    return env.db_sync_url
 
 
 def run_migrations_offline() -> None:

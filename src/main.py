@@ -37,8 +37,7 @@ class CreateApp:
             self.__app.add_middleware(middleware, **config)
 
 
-# TODO: create enviroment variables, and add a base_path to project root folder
-
-
 create_app = CreateApp()
 app = create_app.execute()
+
+# TODO: Add logging and change prints for logs

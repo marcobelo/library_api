@@ -3,12 +3,22 @@ from fastapi import HTTPException, status
 
 class BaseHTTPException(HTTPException):
     def __init__(
-        self, status_code: int = status.HTTP_500_INTERNAL_SERVER_ERROR, detail: str = "Internal Server Error"
+        self,
+        status_code: int = status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail: str = "Internal Server Error",
+        log: str = "",
     ) -> None:
         self.status_code = status_code
         self.detail = detail
+        self.log = log
 
 
 class NotFoundException(BaseHTTPException):
-    def __init__(self, detail: str = "Not Found"):
-        super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
+    def __init__(self, detail: str = "Not Found", log: str = ""):
+        super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=detail, log=log)
+
+
+class MissingEnvironmentException(Exception):
+    """This error is only raise when starting the system, it's not a http exception"""
+
+    pass

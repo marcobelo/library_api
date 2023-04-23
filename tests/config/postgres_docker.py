@@ -1,4 +1,3 @@
-import pathlib
 import time
 
 import docker
@@ -6,6 +5,7 @@ import psycopg2
 
 import alembic.command
 import alembic.config
+from src.config.environemnt import env
 
 
 class PostgresDocker:
@@ -15,16 +15,14 @@ class PostgresDocker:
             "name": "library_db_test",
             "detach": True,
             "remove": True,
-            "environment": {"POSTGRES_USER": "user", "POSTGRES_PASSWORD": "pass", "POSTGRES_DB": "library_db"},
-            "ports": {"5432/tcp": "5432"},
+            "environment": {"POSTGRES_USER": env.db_user, "POSTGRES_PASSWORD": env.db_pass, "POSTGRES_DB": env.db_name},
+            "ports": {"5432/tcp": env.db_port},
         }
-        self.dsn = {"host": "localhost", "user": "user", "password": "pass", "port": "5432", "database": "library_db"}
         self.container = None
-        self.base_dir = pathlib.Path(__file__).parents[2]
         self.__read_sql_files()
 
     def __read_sql_files(self):
-        with open(self.base_dir / "tests/config/reset_database.sql", "r", encoding="UTF-8") as sql_file:
+        with open(env.base_path / "tests/config/reset_database.sql", "r") as sql_file:
             print("Reading Reset Database sql file")
             self.reset_database_sql = sql_file.read()
 
@@ -37,10 +35,11 @@ class PostgresDocker:
         self.container = docker_client.containers.run(**self.config)
         print("Running postgres on docker container")
 
-    def wait_until_ready(self):
+    @staticmethod
+    def wait_until_ready():
         while True:
             try:
-                conn = psycopg2.connect(**self.dsn)
+                conn = psycopg2.connect(**env.db_dsn)
                 conn.close()
                 print("Postgres ready!")
                 break
@@ -53,14 +52,15 @@ class PostgresDocker:
             print("Stopping container")
             self.container.stop()
 
-    def run_migrations(self):
+    @staticmethod
+    def run_migrations():
         print("Running migrations")
         alembic_cfg = alembic.config.Config()
-        alembic_cfg.set_main_option("script_location", str(self.base_dir / "alembic"))
+        alembic_cfg.set_main_option("script_location", str(env.base_path / "alembic"))
         alembic.command.upgrade(alembic_cfg, "head")
 
     def reset(self):
-        conn = psycopg2.connect(**self.dsn)
+        conn = psycopg2.connect(**env.db_dsn)
         cursor = conn.cursor()
         print("Running Reset Database")
         cursor.execute(self.reset_database_sql)

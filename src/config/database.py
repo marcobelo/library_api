@@ -5,11 +5,13 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, sessionmaker
 
+from src.config.environemnt import env
+
 Base = declarative_base()
 session_holder: ContextVar[Optional[Session]] = ContextVar("session_holder", default=None)
 
 async_engine = create_async_engine(
-    "postgresql+asyncpg://user:pass@localhost:5432/library_db",
+    env.db_async_url,
     pool_pre_ping=True,  # Check the connection before using it
     echo=True,  # DEBUG
     # sslmode=True,

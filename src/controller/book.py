@@ -1,5 +1,5 @@
 from src.config.database import db
-from src.schema import BookInput, BookModel, BookOutput
+from src.schema import BookInput, BookModel
 
 
 class BookController:

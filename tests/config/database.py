@@ -1,7 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-engine_sync = create_engine("postgresql://user:pass@localhost:5432/library_db")
+from src.config.environemnt import env
+
+engine_sync = create_engine(env.db_sync_url)
 
 
 def make_sync_session() -> sessionmaker:
