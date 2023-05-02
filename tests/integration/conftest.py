@@ -8,13 +8,18 @@ from tests.config import CustomGenFactory, PostgresDocker, make_sync_session
 postgres_docker = PostgresDocker()
 
 
-@fixture(scope="session", name="database", autouse=True)
+@fixture(scope="session", autouse=True)
 def __fixture_database():
     postgres_docker.run()
     postgres_docker.wait_until_ready()
     postgres_docker.run_migrations()
     yield
     postgres_docker.stop()
+
+
+@fixture(scope="function", autouse=True)
+def __fixture_reset_database():
+    postgres_docker.reset()
 
 
 @fixture(scope="session", name="api_client")
@@ -31,11 +36,6 @@ def __fixture_db_session():
         yield session
 
 
-@fixture(scope="function", name="reset_database", autouse=True)
-def __fixture_reset_database():
-    postgres_docker.reset()
-
-
-@fixture(scope="function", name="mixer")
+@fixture(scope="session", name="mixer")
 def __fixture_mixer():
     return Mixer(session=make_sync_session()(), factory=CustomGenFactory)

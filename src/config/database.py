@@ -3,13 +3,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from src.config.environemnt import env
+from src.config.exception import MissingSessionException
 
 Base = declarative_base()
 
 async_engine = create_async_engine(
     env.db_async_url,
     pool_pre_ping=True,  # Check the connection before using it
-    echo=True,  # DEBUG
+    echo=False,  # DEBUG
     # sslmode=True,
     # sslrootcert="",
 )
@@ -34,7 +35,7 @@ class AsyncSessionHolder:
     @property
     def session(self) -> AsyncSession:
         if not self.__session:
-            raise Exception()  # TODO: improve this exception
+            raise MissingSessionException(log="Missing Database Session", log_level="error")
         return self.__session
 
 

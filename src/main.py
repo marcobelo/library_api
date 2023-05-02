@@ -1,4 +1,4 @@
-from typing import Callable, List, Tuple, Type
+from typing import Any, Callable, List, Tuple, Type
 
 from fastapi import FastAPI
 from fastapi_utils.inferring_router import InferringRouter
@@ -13,10 +13,12 @@ class CreateApp:
         self,
         routers: List[InferringRouter] = ROUTERS,
         exceptions_and_handlers: List[Tuple[Type[Exception], Callable]] = EXCEPTIONS_AND_HANDLERS,
+        middlewares: List[Tuple[Any, dict]] = MIDDLEWARES,
     ) -> None:
         self.__app = FastAPI()
         self.__routers = routers
         self.__exceptions_and_handlers = exceptions_and_handlers
+        self.__middlewares = middlewares
 
     def execute(self) -> FastAPI:
         self.__add_routers()
@@ -33,11 +35,9 @@ class CreateApp:
             self.__app.add_exception_handler(exception, handler)
 
     def __add_middlewares(self) -> None:
-        for middleware, config in MIDDLEWARES:
+        for middleware, config in self.__middlewares:
             self.__app.add_middleware(middleware, **config)
 
 
 create_app = CreateApp()
 app = create_app.execute()
-
-# TODO: Add logging and change prints for logs
