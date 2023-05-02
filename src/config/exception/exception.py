@@ -20,12 +20,6 @@ class NotFoundException(BaseHTTPException):
         super().__init__(status_code=status.HTTP_404_NOT_FOUND, detail=detail, log=log)
 
 
-class MissingSessionException(BaseHTTPException):
-    """Should raise Internal Server Error"""
-
-    pass
-
-
 class MissingEnvironmentException(Exception):
     """This error is only raise when starting the system, it's not a http exception"""
 
