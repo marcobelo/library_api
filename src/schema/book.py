@@ -1,7 +1,8 @@
 import uuid
+from datetime import datetime
 
 from pydantic import BaseModel
-from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -20,6 +21,10 @@ class BookModel(Base):
     isbn = Column(String)
     id_genre = Column(ForeignKey(DomainModel.id))
     genre = relationship(DomainModel, foreign_keys=[id_genre], lazy="joined")
+
+    deleted = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
 class BookInput(BaseModel):

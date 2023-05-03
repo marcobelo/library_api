@@ -7,10 +7,9 @@ Create Date: 2023-04-23 23:28:22.436405
 """
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
-from sqlalchemy.orm import Session
 
 from alembic import op
-from alembic_insertions import DomainV0
+from alembic_insertions import InserterV0
 
 # revision identifiers, used by Alembic.
 revision = "37b06a7c4602"
@@ -43,11 +42,7 @@ def upgrade() -> None:
     )
     # ### end Alembic commands ###
 
-    bind = op.get_bind()
-    session = Session(bind=bind)
-    domain_v0 = DomainV0(session)
-    domain_v0.execute()
-    session.commit()
+    InserterV0(op)
 
 
 def downgrade() -> None:

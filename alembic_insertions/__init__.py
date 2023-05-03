@@ -1,1 +1,1 @@
-from .domain_v0 import DomainV0
+from .versions import InserterV0
