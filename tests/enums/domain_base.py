@@ -1,10 +1,10 @@
+from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel
 
-
-class Domain(BaseModel):
+@dataclass
+class Domain:
     id: int
     table: str
     field: str
@@ -20,4 +20,4 @@ class DomainBaseEnum(Enum):
 
     @property
     def dict(self):
-        return self.value.dict()
+        return asdict(self.value)
