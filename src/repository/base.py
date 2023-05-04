@@ -7,6 +7,7 @@ from sqlalchemy import and_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.config.database import Base
+from src.config.exception import NotFoundException
 from src.config.logger import logger
 
 
@@ -34,8 +35,11 @@ class BaseRepository:
         logger.info("%s saved in database", model.__class__.__name__)
 
     async def delete_one(self, filters: list) -> None:
+        class_name = self.__model.__class__.__name__
         query = select(self.__model).where(and_(*filters))
         result = await self.__session.execute(query)
         to_delete = result.scalars().first()
+        if not to_delete:
+            raise NotFoundException()
         to_delete.deleted = True
-        logger.info("%s marked as deleted in database", to_delete.__class__.__name__)
+        logger.info("%s marked as deleted in database", class_name)
