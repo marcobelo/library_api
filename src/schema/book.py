@@ -1,8 +1,8 @@
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, String
+from pydantic import BaseModel, Extra
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 
@@ -15,7 +15,8 @@ from .domain import DomainModel, DomainOutput
 class BookModel(Base):
     __tablename__ = "book"
 
-    guid = Column(UUID(as_uuid=True), primary_key=True, nullable=False, default=uuid.uuid4)
+    id = Column(Integer, primary_key=True, nullable=False)
+    guid = Column(UUID(as_uuid=True), nullable=False, default=uuid.uuid4, unique=True)
     title = Column(String)
     author = Column(String)
     isbn = Column(String)
@@ -34,6 +35,7 @@ class BookInput(BaseModel):
     id_genre: int
 
     class Config:
+        extra = Extra.forbid
         schema_extra = {
             "example": {
                 "title": "The book",
@@ -45,6 +47,7 @@ class BookInput(BaseModel):
 
 
 class BookOutput(BaseModel):
+    id: int
     guid: uuid.UUID
     title: str
     author: str
@@ -55,9 +58,16 @@ class BookOutput(BaseModel):
         orm_mode = True
         schema_extra = {
             "example": {
-                "guid": "5adf2183-e6e2-4254-8593-1db885394c89",
+                "id": 1,
+                "guid": "e1fb3e12-2e18-4565-8ab2-4bdbb87da4ec",
                 "title": "The book",
                 "author": "Marco Belo",
                 "isbn": "978-3-16-148410-0",
+                "genre": {
+                    "id": 4,
+                    "code": "ROMANCE",
+                    "title": "Romance",
+                    "order": None,
+                },
             }
         }

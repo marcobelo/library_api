@@ -22,6 +22,7 @@ class TestBookSchemas:
             BookOutput()
         result = unpack_validation_error(exc)
         expected = [
+            {"loc": ["id"], "msg": "field required", "type": "value_error.missing"},
             {"loc": ["guid"], "msg": "field required", "type": "value_error.missing"},
             {"loc": ["title"], "msg": "field required", "type": "value_error.missing"},
             {"loc": ["author"], "msg": "field required", "type": "value_error.missing"},

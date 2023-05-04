@@ -11,13 +11,13 @@ services:
     environment:
       - DB_USER=user
       - DB_PASS=pass
-      - DB_HOST=localhost
+      - DB_HOST=library_db
       - DB_PORT=5432
       - DB_NAME=library_db
     volumes:
       - ./src/:/code/src
     depends_on:
-      - web-db
+      - library_db
 
   library_db:
     container_name: library_db

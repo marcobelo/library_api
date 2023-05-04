@@ -6,10 +6,8 @@ from typing import Optional
 @dataclass
 class Domain:
     id: int
-    table: str
-    field: str
-    title: str
     code: str
+    title: str
     order: Optional[str]
 
 
