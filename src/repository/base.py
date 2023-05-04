@@ -35,11 +35,11 @@ class BaseRepository:
         logger.info("%s saved in database", model.__class__.__name__)
 
     async def delete_one(self, filters: list) -> None:
-        class_name = self.__model.__class__.__name__
         query = select(self.__model).where(and_(*filters))
         result = await self.__session.execute(query)
         to_delete = result.scalars().first()
         if not to_delete:
             raise NotFoundException()
         to_delete.deleted = True
-        logger.info("%s marked as deleted in database", class_name)
+        logger.info("%s marked as deleted in database", self.__model.__class__.__name__)
+        # TODO: check if logger can get the model name correctly from self.__model.__class__.__name__
