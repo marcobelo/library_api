@@ -11,9 +11,8 @@ RUN pip install "poetry==$POETRY_VERSION"
 RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-ansi
 
+COPY ./src /code/src
 COPY ./alembic /code/alembic
 COPY ./alembic_insertions /code/alembic_insertions
 COPY ./alembic.ini /code/alembic.ini
 COPY ./envs /code/envs
-
-COPY ./src /code/src

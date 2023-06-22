@@ -12,7 +12,11 @@ services:
     env_file:
       - envs/docker/local/api
     volumes:
-      - ./src/:/code/src
+      - ./src:/code/src
+      - ./alembic:/code/alembic
+      - ./alembic_insertions:/code/alembic_insertions
+      - ./alembic.ini:/code/alembic.ini
+      - ./envs:/code/envs
     depends_on:
       library_db:
         condition: service_healthy
