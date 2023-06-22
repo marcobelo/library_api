@@ -1,0 +1,5 @@
+DB_USER=user
+DB_PASS=pass
+DB_HOST=library_db
+DB_PORT=5432
+DB_NAME=library_db

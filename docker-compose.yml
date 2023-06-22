@@ -5,27 +5,28 @@ services:
   library_api:
     container_name: library_api
     build: .
-    command: uvicorn src.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+    command: >
+      sh -c "alembic upgrade head && uvicorn src.main:app --reload --workers 1 --host 0.0.0.0 --port 8000"
     ports:
       - 8000:8000
-    environment:
-      - DB_USER=user
-      - DB_PASS=pass
-      - DB_HOST=library_db
-      - DB_PORT=5432
-      - DB_NAME=library_db
+    env_file:
+      - envs/docker/local/api
     volumes:
       - ./src/:/code/src
     depends_on:
-      - library_db
+      library_db:
+        condition: service_healthy
 
   library_db:
     container_name: library_db
     image: postgres
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=library_db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - envs/docker/local/db
     ports:
       - 5432:5432
     volumes:

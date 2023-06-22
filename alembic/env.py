@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from alembic import context
 
 base_path = pathlib.Path(__file__).parents[1]
-env_path = base_path / ".env_test"
+env_path = base_path / "envs/env_test"
 load_dotenv(env_path)
 
 from src.config.database import Base

@@ -49,7 +49,7 @@ class PostgresDocker:
 
     def stop(self):
         if self.container:
-            print("Stopping container")
+            print("\nStopping container")
             self.container.stop()
 
     @staticmethod
@@ -62,7 +62,7 @@ class PostgresDocker:
     def reset(self):
         conn = psycopg2.connect(**env.db_dsn)
         cursor = conn.cursor()
-        print("Running Reset Database")
+        print("\nRunning Reset Database")
         cursor.execute(self.reset_database_sql)
         cursor.close()
         conn.commit()
