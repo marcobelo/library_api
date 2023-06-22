@@ -1,41 +1,30 @@
 import uuid
-from datetime import datetime
 
-from pydantic import BaseModel, Extra
-from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.orm import relationship
 
-from src.config.database import Base
-
+from .base import BaseInput, BaseOutput, ORMBaseModel
 from .custom_fields import ISBN
 from .domain import DomainModel, DomainOutput
 
 
-class BookModel(Base):
+class BookModel(ORMBaseModel):
     __tablename__ = "book"
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    guid = Column(UUID(as_uuid=True), nullable=False, default=uuid.uuid4, unique=True)
     title = Column(String)
     author = Column(String)
     isbn = Column(String)
     id_genre = Column(ForeignKey(DomainModel.id))
     genre = relationship(DomainModel, foreign_keys=[id_genre], lazy="joined")
 
-    deleted = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
-
-class BookInput(BaseModel):
+class BookInput(BaseInput):
     title: str
     author: str
     isbn: ISBN
     id_genre: int
 
     class Config:
-        extra = Extra.forbid
         schema_extra = {
             "example": {
                 "title": "The book",
@@ -46,7 +35,7 @@ class BookInput(BaseModel):
         }
 
 
-class BookOutput(BaseModel):
+class BookOutput(BaseOutput):
     id: int
     guid: uuid.UUID
     title: str
@@ -55,7 +44,6 @@ class BookOutput(BaseModel):
     genre: DomainOutput
 
     class Config:
-        orm_mode = True
         schema_extra = {
             "example": {
                 "id": 1,
