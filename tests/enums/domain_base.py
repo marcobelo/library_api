@@ -1,6 +1,7 @@
-from dataclasses import asdict, dataclass
-from enum import Enum
+from dataclasses import dataclass
 from typing import Optional
+
+from tests.enums.base import BaseEnum
 
 
 @dataclass
@@ -11,11 +12,9 @@ class Domain:
     order: Optional[str]
 
 
-class DomainBaseEnum(Enum):
-    @property
-    def id(self):
-        return self.value.id
-
-    @property
-    def dict(self):
-        return asdict(self.value)
+class DomainBaseEnum(BaseEnum):
+    @classmethod
+    def get_enum_by_id(cls, id_enum: int) -> Optional[BaseEnum]:
+        for member in cls:
+            if member.value.id == id_enum:
+                return member

@@ -1,9 +1,8 @@
 from fastapi.testclient import TestClient
-from mixer.backend.sqlalchemy import Mixer
 from pytest import fixture
 
 from src.main import CreateApp
-from tests.config import CustomGenFactory, PostgresDocker, make_sync_session
+from tests.config import PostgresDocker, make_sync_session
 
 postgres_docker = PostgresDocker()
 
@@ -34,8 +33,3 @@ def __fixture_fastapi_client():
 def __fixture_db_session():
     with make_sync_session()() as session:
         yield session
-
-
-@fixture(scope="session", name="mixer")
-def __fixture_mixer():
-    return Mixer(session=make_sync_session()(), factory=CustomGenFactory)

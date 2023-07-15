@@ -1,1 +1,1 @@
-from .book import BookFakerFactory
+from .book import BookFakeFactory

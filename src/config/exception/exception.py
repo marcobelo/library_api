@@ -21,6 +21,6 @@ class NotFoundException(BaseHTTPException):
 
 
 class MissingEnvironmentException(Exception):
-    """This error is only raise when starting the system, it's not a http exception"""
+    """This error is only raised when starting the system, it's not a http exception"""
 
     pass

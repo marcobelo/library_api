@@ -8,6 +8,7 @@ from src.config.exception import MissingEnvironmentException
 
 class Environment:
     def __init__(self):
+        self.base_path = self.__get_base_path()
         self.__load_env_file()
         self.db_user = self.__get_env("DB_USER")
         self.db_pass = self.__get_env("DB_PASS")
@@ -22,15 +23,15 @@ class Environment:
         self.page_min_size = int(self.__get_env("PAGE_MIN_SIZE"))
         self.page_max_size = int(self.__get_env("PAGE_MAX_SIZE"))
 
-        self.base_path = self.__get_base_path()
-
     @staticmethod
-    def __load_env_file():
+    def __get_base_path() -> pathlib:
+        return pathlib.Path(__file__).parents[2]
+
+    def __load_env_file(self):
         environment = os.getenv("ENVIRONMENT", "DEV")
         running_tests = os.getenv("RUNNING_TESTS", False)
         if environment == "DEV":
-            base_path = pathlib.Path(__file__).parents[2]
-            env_path = base_path / "envs/env_test"
+            env_path = self.base_path / "envs/env_test"
             load_dotenv(env_path)
         elif not running_tests and environment == "Other envs: uat, stage, prod...":
             pass
@@ -54,10 +55,6 @@ class Environment:
             "port": self.db_port,
             "database": self.db_name,
         }
-
-    @staticmethod
-    def __get_base_path() -> pathlib:
-        return pathlib.Path(__file__).parents[2]
 
 
 env = Environment()
