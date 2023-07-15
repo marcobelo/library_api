@@ -25,7 +25,7 @@ class BaseRepository:
             query = query.where(and_(*filters))
         query = query.order_by(self.__model.id.desc())
         items = await paginate(self.__session, query, params)
-        logger.info("Retrieve %s items from database", self.__model.__class__.__name__)
+        logger.info("Retrieve %s items from database", self.__model.__name__)
         return items
 
     async def add_one(self, model: Base) -> None:
@@ -41,5 +41,4 @@ class BaseRepository:
         if not to_delete:
             raise NotFoundException()
         to_delete.deleted = True
-        logger.info("%s marked as deleted in database", self.__model.__class__.__name__)
-        # TODO: check if logger can get the model name correctly from self.__model.__class__.__name__
+        logger.info("%s marked as deleted in database, guid=%s", to_delete.__class__.__name__, to_delete.guid)
