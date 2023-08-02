@@ -19,6 +19,6 @@ class BookController:
         book_model = await self.book_repository.add_book(book_input)
         return book_model
 
-    async def delete_book(self, guid_book: UUID):
-        logger.info("BookController.delete_book - guid_book = %s", str(guid_book))
-        await self.book_repository.delete_book(guid_book)
+    async def delete_book(self, book_guid: UUID):
+        logger.info("BookController.delete_book - book_guid = %s", str(book_guid))
+        await self.book_repository.delete_book(book_guid)

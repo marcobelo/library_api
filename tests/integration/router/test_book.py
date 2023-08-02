@@ -41,9 +41,9 @@ class TestBookController:
         assert deleted_book.deleted
 
     def test_delete_should_return_not_found_if_guid_dont_exist(self, api_client):
-        guid_book = str(uuid4())
+        book_guid = str(uuid4())
 
-        response = api_client.delete(f"/books/{guid_book}")
+        response = api_client.delete(f"/books/{book_guid}")
 
         assert response.status_code == status.HTTP_404_NOT_FOUND
         assert response.json() == {"detail": "Not Found"}

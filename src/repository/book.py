@@ -21,6 +21,6 @@ class BookRepository(BaseRepository):
         await self.add_one(book_model)
         return book_model
 
-    async def delete_book(self, guid_book: UUID) -> None:
-        filters = [BookModel.guid == guid_book]
+    async def delete_book(self, book_guid: UUID) -> None:
+        filters = [BookModel.guid == book_guid]
         await self.delete_one(filters)

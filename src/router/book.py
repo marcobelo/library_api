@@ -32,7 +32,7 @@ class BookRouter:
         self.book_repository.set_session(session)
         return await self.book_controller.add_book(book_input)
 
-    @router.delete("/books/{guid_book}", status_code=status.HTTP_204_NO_CONTENT)
-    async def delete_book(self, guid_book: UUID, session: AsyncSession = Depends(async_session)):
+    @router.delete("/books/{book_guid}", status_code=status.HTTP_204_NO_CONTENT)
+    async def delete_book(self, book_guid: UUID, session: AsyncSession = Depends(async_session)):
         self.book_repository.set_session(session)
-        await self.book_controller.delete_book(guid_book)
+        await self.book_controller.delete_book(book_guid)
