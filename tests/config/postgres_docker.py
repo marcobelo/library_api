@@ -29,9 +29,9 @@ class PostgresDocker:
     def run(self):
         print("Connecting to docker engine")
         docker_client = docker.from_env()
-        for container in filter(lambda x: x.name == "library_db_test", docker_client.containers.list()):
+        for container in filter(lambda x: x.name == self.config["name"], docker_client.containers.list()):
             container.stop()
-            print("Stop library_db_test")
+            print(f"Stop {self.config['name']}")
         self.container = docker_client.containers.run(**self.config)
         print("Running postgres on docker container")
 
@@ -49,7 +49,7 @@ class PostgresDocker:
 
     def stop(self):
         if self.container:
-            print("\nStopping container")
+            print(f"\nStopping container {self.config['name']}")
             self.container.stop()
 
     @staticmethod
