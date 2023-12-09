@@ -55,7 +55,7 @@ class BookOutput(BaseOutput):
                     "id": 4,
                     "code": "ROMANCE",
                     "title": "Romance",
-                    "order": None,
+                    "seq": 4,
                 },
             }
         }

@@ -9,7 +9,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 from alembic import op
-from alembic_insertions import InserterV0
+from alembic_insertions.base_queries import BaseQueries
 
 # revision identifiers, used by Alembic.
 revision = "15d0f1c2e971"
@@ -25,8 +25,8 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("code", sa.String(), nullable=False),
         sa.Column("title", sa.String(), nullable=False),
-        sa.Column("order", sa.Integer(), nullable=True),
-        sa.Column("table", sa.String(), nullable=False),
+        sa.Column("seq", sa.Integer(), nullable=True),
+        sa.Column("source", sa.String(), nullable=False),
         sa.Column("field", sa.String(), nullable=False),
         sa.PrimaryKeyConstraint("id"),
     )
@@ -49,7 +49,6 @@ def upgrade() -> None:
         sa.UniqueConstraint("guid"),
     )
     # ### end Alembic commands ###
-    InserterV0(op)
 
 
 def downgrade() -> None:

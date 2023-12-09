@@ -9,7 +9,7 @@ class Domain:
     id: int
     code: str
     title: str
-    order: Optional[str]
+    seq: Optional[int]
 
 
 class DomainBaseEnum(BaseEnum):

@@ -6,29 +6,29 @@ class BookGenreEnum(DomainBaseEnum):
         id=1,
         code="FICTION",
         title="Fiction",
-        order=None,
+        seq=1,
     )
     SCIENCE_FICTION = Domain(
         id=2,
         code="SCIENCE_FICTION",
         title="Science Fiction",
-        order=None,
+        seq=2,
     )
     HISTORICAL_FICTION = Domain(
         id=3,
         code="HISTORICAL_FICTION",
         title="Historical Fiction",
-        order=None,
+        seq=3,
     )
     ROMANCE = Domain(
         id=4,
         code="ROMANCE",
         title="Romance",
-        order=None,
+        seq=4,
     )
     FANTASY = Domain(
         id=5,
         code="FANTASY",
         title="Fantasy",
-        order=None,
+        seq=5,
     )

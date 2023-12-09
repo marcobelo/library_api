@@ -12,7 +12,7 @@ class TestBookController:
     def test_get_list_should_return_list_of_all_books_not_deleted_with_pagination(self, api_client):
         page, page_size, num_items = 2, 2, 11
         pages = math.ceil(num_items / page)
-        books = BookFakeFactory.new(num_items)
+        books = BookFakeFactory(num_items).new()
 
         response = api_client.get("/books", params={"page": page, "size": page_size})
 
@@ -24,7 +24,7 @@ class TestBookController:
         assert_that(items[1], has_entries({**books[7].expected}))
 
     def test_post_should_create_new_book_register(self, api_client):
-        book = BookFakeFactory.new(1, False)[0]
+        book = BookFakeFactory(1, False).new()[0]
 
         response = api_client.post("/books", json=book.data)
 
@@ -32,7 +32,7 @@ class TestBookController:
         assert_that(response.json(), has_entries(book.expected))
 
     def test_delete_should_mark_a_book_as_deleted(self, api_client, db_session):
-        book = BookFakeFactory.new(1)[0]
+        book = BookFakeFactory(1).new()[0]
 
         response = api_client.delete(f"/books/{book.model.guid}")
 
