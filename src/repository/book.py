@@ -12,7 +12,7 @@ class BookRepository(BaseRepository):
     def __init__(self, session: AsyncSession = None) -> None:
         super().__init__(session, BookModel)
 
-    async def get_books(self, params: PaginationParams) -> Page[BookModel]:
+    async def list_books(self, params: PaginationParams) -> Page[BookModel]:
         filters = [BookModel.deleted == False]
         return await self.get_all_paginate(params, filters)
 

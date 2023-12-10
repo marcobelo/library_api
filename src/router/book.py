@@ -25,12 +25,12 @@ class BookRouter:
     @router.get("/books", response_model=PaginateOutput[BookOutput], status_code=status.HTTP_200_OK)
     async def list_books(self, params: PaginationParams = Depends(), session: AsyncSession = Depends(async_session)):
         self.book_repository.set_session(session)
-        return await self.book_controller.get_books(params)
+        return await self.book_controller.list_books(params)
 
     @router.post("/books", response_model=BookOutput, status_code=status.HTTP_201_CREATED)
-    async def create_book(self, book_input: BookInput, session: AsyncSession = Depends(async_session)):
+    async def register_book(self, book_input: BookInput, session: AsyncSession = Depends(async_session)):
         self.book_repository.set_session(session)
-        return await self.book_controller.add_book(book_input)
+        return await self.book_controller.register_book(book_input)
 
     @router.delete("/books/{book_guid}", status_code=status.HTTP_204_NO_CONTENT)
     async def delete_book(self, book_guid: UUID, session: AsyncSession = Depends(async_session)):
