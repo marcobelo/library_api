@@ -1,5 +1,3 @@
-from typing import Optional
-
 from pydantic import BaseModel, Extra
 from sqlalchemy import Column, Integer, String
 
@@ -12,7 +10,6 @@ class DomainModel(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     code = Column(String, nullable=False)
     title = Column(String, nullable=False)
-    seq = Column(Integer)
 
     # internal
     source = Column(String, nullable=False)
@@ -22,8 +19,6 @@ class DomainModel(Base):
 class DomainInput(BaseModel):
     code: str
     title: str
-    seq: Optional[int]
-
     source: str
     field: str
 
@@ -35,7 +30,6 @@ class DomainInput(BaseModel):
                 "field": "id_genre",
                 "code": "HORROR",
                 "title": "Horror",
-                "seq": 6,
             }
         }
 
@@ -44,7 +38,6 @@ class DomainOutput(BaseModel):
     id: int
     code: str
     title: str
-    seq: Optional[int]
 
     class Config:
         orm_mode = True
@@ -53,6 +46,5 @@ class DomainOutput(BaseModel):
                 "id": 6,
                 "code": "HORROR",
                 "title": "Horror",
-                "seq": 6,
             }
         }

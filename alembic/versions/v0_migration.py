@@ -25,7 +25,6 @@ def upgrade() -> None:
         sa.Column("id", sa.Integer(), nullable=False),
         sa.Column("code", sa.String(), nullable=False),
         sa.Column("title", sa.String(), nullable=False),
-        sa.Column("seq", sa.Integer(), nullable=True),
         sa.Column("source", sa.String(), nullable=False),
         sa.Column("field", sa.String(), nullable=False),
         sa.PrimaryKeyConstraint("id"),

@@ -15,15 +15,15 @@ class V1Queries(BaseQueries):
         book_id_genre = {"source": "book", "field": "id_genre"}
         return {
             "domain": [
-                {**book_id_genre, "code": "FICTION", "title": "Fiction", "seq": 1},
-                {**book_id_genre, "code": "SCIENCE_FICTION", "title": "Science Fiction", "seq": 2},
-                {**book_id_genre, "code": "HISTORICAL_FICTION", "title": "Historical Fiction", "seq": 3},
-                {**book_id_genre, "code": "ROMANCE", "title": "Romance", "seq": 4},
-                {**book_id_genre, "code": "FANTASY", "title": "Fantasy", "seq": 5},
-                {**book_id_genre, "code": "MYSTERY", "title": "Mystery", "seq": 6},
-                {**book_id_genre, "code": "HORROR", "title": "Horror", "seq": 7},
-                {**book_id_genre, "code": "THRILLER", "title": "Thriller", "seq": 8},
-                {**book_id_genre, "code": "BIOGRAPHY", "title": "Biography", "seq": 9},
-                {**book_id_genre, "code": "POETRY", "title": "Poetry", "seq": 10},
+                {**book_id_genre, "code": "FICTION", "title": "Fiction"},
+                {**book_id_genre, "code": "SCIENCE_FICTION", "title": "Science Fiction"},
+                {**book_id_genre, "code": "HISTORICAL_FICTION", "title": "Historical Fiction"},
+                {**book_id_genre, "code": "ROMANCE", "title": "Romance"},
+                {**book_id_genre, "code": "FANTASY", "title": "Fantasy"},
+                {**book_id_genre, "code": "MYSTERY", "title": "Mystery"},
+                {**book_id_genre, "code": "HORROR", "title": "Horror"},
+                {**book_id_genre, "code": "THRILLER", "title": "Thriller"},
+                {**book_id_genre, "code": "BIOGRAPHY", "title": "Biography"},
+                {**book_id_genre, "code": "POETRY", "title": "Poetry"},
             ]
         }
