@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from mixer import mix_types
 from mixer.backend.sqlalchemy import GenFactory, Mixer
 from sqlalchemy import create_engine
@@ -18,6 +20,7 @@ def make_sync_session() -> sessionmaker:
     )
 
 
+@lru_cache(maxsize=None)
 def create_mixer():
     class CustomGenFactory(GenFactory):
         types = dict(GenFactory.types)
